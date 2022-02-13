@@ -23,6 +23,13 @@
               <a href="{{ route('communities.edit',$community) }}" class="btn btn-sm btn-primary">
                 Edit
               </a>
+              <form method="POST" action="{{ route('communities.destroy',$community) }}"  class="d-inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-danger">
+                  Delete
+                </button>
+              </form>
             </td>
           </tr>
           @endforeach
