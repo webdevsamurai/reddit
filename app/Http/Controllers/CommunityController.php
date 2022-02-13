@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CommunityRequest;
+use App\Http\Requests\CommunityUpdateRequest;
 use App\Models\Community;
 use App\Models\Topic;
 use Illuminate\Http\Request;
@@ -16,7 +17,8 @@ class CommunityController extends Controller
      */
     public function index()
     {
-        //
+        $communities = Community::where('user_id', Auth()->id())->get();
+        return view('communities.index', compact('communities'));
     }
 
     /**
@@ -53,7 +55,11 @@ class CommunityController extends Controller
      */
     public function show(Community $community)
     {
-        return $community->name;
+        if ($community->user_id != Auth()->id()) {
+            abort(403);
+        }
+        $community->load('topics');
+        return view('communities.show', compact('community'));
     }
 
     /**
@@ -62,9 +68,14 @@ class CommunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Community $community)
     {
-        //
+        if ($community->user_id != Auth()->id()) {
+            abort(403);
+        }
+        $community->load('topics');
+        $topics = Topic::all();
+        return view('communities.edit', compact('community', 'topics'));
     }
 
     /**
@@ -74,9 +85,11 @@ class CommunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CommunityUpdateRequest $request, Community $community)
     {
-        //
+        $community->update($request->validated());
+        $community->topics()->sync($request->topics);
+        return redirect()->route('communities.show', $community);
     }
 
     /**
