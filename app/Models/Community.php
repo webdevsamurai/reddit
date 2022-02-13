@@ -11,8 +11,8 @@ class Community extends Model
     
     protected $fillable = ['name', 'description', 'user_id'];
 
-    public function Topics()
+    public function topics()
     {
-        return $this->hasMany(Community::class);
+        return $this->belongsToMany(Topic::class);
     }
 }
