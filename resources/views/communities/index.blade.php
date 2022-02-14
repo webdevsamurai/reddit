@@ -10,20 +10,24 @@
           New Community
         </a>
       </div>
-      <table class="table table-sm">
+      <table class="table table-sm ">
         <thead>
-          <tr>Name</tr>
-          <tr></tr>
+          <tr scope="col">Name</tr>
+          <tr scope="col"></tr>
         </thead>
         <tbody>
           @foreach($communities as $community)
-          <tr>
-            <td>{{$community->name}}</td>
+          <tr class="">
             <td>
-              <a href="{{ route('communities.edit',$community) }}" class="btn btn-sm btn-primary">
+              <a href="{{ route('communities.show',$community)  }}">
+                {{$community->name}}
+              </a>
+            </td>
+            <td class="d-flex justify-content-end ">
+              <a href="{{ route('communities.edit',$community) }}" class="btn btn-sm btn-primary mx-1">
                 Edit
               </a>
-              <form method="POST" action="{{ route('communities.destroy',$community) }}"  class="d-inline">
+              <form method="POST" action="{{ route('communities.destroy',$community) }}" class="d-inline mx-1">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-sm btn-danger">

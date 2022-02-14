@@ -44,7 +44,7 @@ class CommunityController extends Controller
         // dd($request);
         $communtity = Community::create($request->validated() + ['user_id' => auth()->id()]);
         $communtity->topics()->attach($request->topics);
-        return redirect()->route('communities.show', $communtity);
+        return redirect()->route('communities.index', $communtity);
     }
 
     /**
