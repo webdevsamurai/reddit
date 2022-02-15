@@ -8,12 +8,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Community extends Model
 {
-    use HasFactory,SoftDeletes;
-    
+    use HasFactory, SoftDeletes;
+
     protected $fillable = ['name', 'description', 'user_id'];
 
     public function topics()
     {
         return $this->belongsToMany(Topic::class);
+    }
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }
